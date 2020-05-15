@@ -439,7 +439,7 @@ class TestStaffSubmissionView(BaseSubmissionViewTestCase):
         request.user = StaffFactory()
 
         with self.assertRaises(Http404):
-            SubmissionDetailView.as_view()(request, pk=submission.pk)      
+            SubmissionDetailView.as_view()(request, pk=submission.pk) 
 
 
 class TestReviewersUpdateView(BaseSubmissionViewTestCase):
