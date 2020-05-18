@@ -42,6 +42,7 @@ from ..blocks import NAMED_BLOCKS, ApplicationCustomFormFieldsBlock
 from ..workflow import (
     COMMUNITY_REVIEW_PHASES,
     DETERMINATION_RESPONSE_PHASES,
+    DRAFT,
     INITIAL_STATE,
     PHASES,
     PHASES_MAPPING,
@@ -145,7 +146,7 @@ class ApplicationSubmissionQueryset(JSONOrderable):
         return self.exclude(next__isnull=False)
 
     def exclude_draft(self):
-        return self.exclude(status='draft')
+        return self.exclude(status=DRAFT)
 
     def with_latest_update(self):
         activities = self.model.activities.rel.model
