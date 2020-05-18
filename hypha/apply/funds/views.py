@@ -84,7 +84,7 @@ from .tables import (
     SummarySubmissionsTable,
 )
 from .workflow import (
-    DRAFT,
+    DRAFT_STATE,
     INITIAL_STATE,
     PHASES_MAPPING,
     STAGE_CHANGE_ACTIONS,
@@ -660,7 +660,7 @@ class AdminSubmissionDetailView(ReviewContextMixin, ActivityContextMixin, Delega
 
     def dispatch(self, request, *args, **kwargs):
         submission = self.get_object()
-        if submission.status == DRAFT:
+        if submission.status == DRAFT_STATE:
             raise Http404
         redirect = SubmissionSealedView.should_redirect(request, submission)
         return redirect or super().dispatch(request, *args, **kwargs)
@@ -686,7 +686,7 @@ class ReviewerSubmissionDetailView(ReviewContextMixin, ActivityContextMixin, Del
 
     def dispatch(self, request, *args, **kwargs):
         submission = self.get_object()
-        if submission.status == DRAFT:
+        if submission.status == DRAFT_STATE:
             raise Http404
         # If the requesting user submitted the application, return the Applicant view.
         # Reviewers may sometimes be applicants as well.
@@ -700,7 +700,7 @@ class PartnerSubmissionDetailView(ActivityContextMixin, DelegateableView, Detail
     form_views = [CommentFormView]
 
     def get_object(self):
-        if submission.status == DRAFT:
+        if submission.status == DRAFT_STATE:
             raise Http404
         return super().get_object().from_draft()
 
@@ -724,7 +724,7 @@ class CommunitySubmissionDetailView(ReviewContextMixin, ActivityContextMixin, De
 
     def dispatch(self, request, *args, **kwargs):
         submission = self.get_object()
-        if submission.status == DRAFT:
+        if submission.status == DRAFT_STATE:
             raise Http404
         # If the requesting user submitted the application, return the Applicant view.
         # Reviewers may sometimes be applicants as well.
